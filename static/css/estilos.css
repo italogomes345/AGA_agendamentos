@@ -1,0 +1,3312 @@
+/* ==========================================================
+   1. VARIÁVEIS E CORES DO TEMA
+   ========================================================== */
+:root {
+    --cor-dominante: #79BDD1;
+    --cor-primaria: #7B969E;
+    --cor-sombra-clara: #58676B;
+    --cor-sombra-escura: #233338;
+    --cor-destaque: #152C33;
+
+    --cor-fundo: #F4F7F8;
+    --cor-superficie: #FFFFFF;
+    --cor-superficie-suave: #E9F1F3;
+    --cor-fundo-painel: #FFFFFF;
+    --cor-centro-grafico: #FFFFFF;
+
+    --cor-texto-principal: #152C33;
+    --cor-texto: #233338;
+    --cor-texto-suave: #58676B;
+    --cor-borda: #C7D7DB;
+
+    --cor-grafico-pendente: #7B969E;
+    --cor-grafico-confirmado: #79BDD1;
+    --cor-grafico-cancelado: #CF6F6F;
+    --cor-grafico-concluido: #58676B;
+    --cor-grafico-vazio: #D7E3E6;
+    --cor-perigo: #B85C5C;
+    --sombra-padrao: 0 12px 35px rgba(21, 44, 51, .10);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, sans-serif;
+    color: var(--cor-texto);
+    background: var(--cor-fundo);
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* ==========================================================
+   2. ESTRUTURA PRINCIPAL E SIDEBAR
+   ========================================================== */
+.estruturaAplicacao {
+    min-height: 100vh;
+    display: flex;
+}
+
+.barraLateral {
+    width: 72px;
+    position: fixed;
+    inset: 0 auto 0 0;
+    background: var(--cor-superficie);
+    border-right: 1px solid var(--cor-borda);
+    padding: 24px 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 20;
+    overflow: hidden;
+    transition: width .22s ease, box-shadow .22s ease;
+}
+
+.barraLateral:hover, .barraLateral:focus-within {
+    width: 250px;
+    box-shadow: 15px 0 35px rgba(33, 52, 61, .08);
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 6px 28px;
+    min-width: 220px;
+}
+
+.simboloMarca {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--cor-azul-aco), var(--cor-ciano));
+    box-shadow: 0 8px 20px rgba(24, 143, 167, .2);
+}
+
+.marca strong {
+    display: block;
+    font-size: 18px;
+    color: var(--cor-texto-principal);
+    letter-spacing: .3px;
+}
+
+.marca span {
+    display: block;
+    font-size: 11px;
+    color: var(--cor-texto-suave);
+    margin-top: 2px;
+}
+
+.menuNavegacao {
+    display: grid;
+    gap: 6px;
+}
+
+.marca>div:last-child, .itemNavegacao {
+    transition: opacity .15s ease;
+}
+
+.barraLateral:not(:hover):not(:focus-within) .marca>div:last-child,
+.barraLateral:not(:hover):not(:focus-within) .itemNavegacao {
+    opacity: 0;
+}
+
+.barraLateral:not(:hover):not(:focus-within) .itemNavegacao {
+    justify-content: center;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.barraLateral:not(:hover):not(:focus-within) .rodapeBarraLateral>* {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.itemNavegacao {
+    border: 0;
+    background: transparent;
+    color: var(--cor-texto-suave);
+    text-align: left;
+    padding: 12px 13px;
+    border-radius: 11px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+.itemNavegacao span {
+    width: 22px;
+    text-align: center;
+    color: var(--cor-azul-aco);
+    font-size: 17px;
+}
+
+.itemNavegacao:hover {
+    background: var(--cor-superficie-suave);
+    color: var(--cor-texto-principal);
+    transform: translateX(2px);
+}
+
+.itemNavegacao.ativo {
+    background: linear-gradient(90deg, rgba(24, 143, 167, .13), rgba(118, 159, 182, .08));
+    color: var(--cor-ciano);
+    box-shadow: inset 3px 0 0 var(--cor-ciano);
+}
+
+.rodapeBarraLateral {
+    margin-top: auto;
+    display: grid;
+    gap: 13px;
+}
+
+.cartaoMini {
+    padding: 12px;
+    border: 1px solid var(--cor-borda);
+    background: var(--cor-superficie);
+    border-radius: 12px;
+    display: flex;
+    gap: 9px;
+    align-items: center;
+}
+
+.pontoMini {
+    width: 9px;
+    height: 9px;
+    background: #5aa37a;
+    border-radius: 50%;
+    box-shadow: 0 0 0 5px #e9f5ee;
+}
+
+.cartaoMini strong, .perfilMini strong {
+    display: block;
+    font-size: 12px;
+    color: var(--cor-texto-principal);
+}
+
+.cartaoMini small, .perfilMini small {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.perfilMini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+}
+
+.perfilMini button {
+    margin-left: auto;
+    border: 0;
+    background: transparent;
+    color: var(--cor-texto-suave);
+    font-size: 20px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--cor-areia);
+    color: var(--cor-texto-principal);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.menu-perfil {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 76px;
+    display: none;
+    padding: 10px;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 14px;
+    box-shadow: 0 18px 45px rgba(31, 51, 64, .16);
+    z-index: 50;
+}
+
+.menu-perfil.abrir {
+    display: block;
+}
+
+.menu-perfil-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 8px 10px;
+    border-bottom: 1px solid var(--cor-borda);
+    margin-bottom: 6px;
+}
+
+.menu-perfil-header strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 11px;
+}
+
+.menu-perfil-header small {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 9px;
+    margin-top: 2px;
+}
+
+.menu-perfil-item {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--cor-texto);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    padding: 9px 8px;
+    border-radius: 9px;
+}
+
+.menu-perfil-item:hover {
+    background: var(--cor-superficie-suave);
+}
+
+.menu-perfil-item strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 10px;
+}
+
+.menu-perfil-item small {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 8px;
+    margin-top: 2px;
+}
+
+.menu-perfil-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: rgba(24, 143, 167, .12);
+    color: var(--cor-ciano);
+    font-weight: 800;
+}
+
+/* ==========================================================
+   3. TOPO, BUSCA E PERFIL
+   ========================================================== */
+.conteudoPrincipal {
+    flex: 1;
+    margin-left: 72px;
+    min-width: 0;
+    transition: margin-left .22s ease;
+}
+
+.barraSuperior {
+    height: 76px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 34px;
+    background: rgba(255, 255, 255, .92);
+    border-bottom: 1px solid var(--cor-borda);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(14px);
+}
+
+.campoBusca {
+    flex: 1;
+    max-width: 690px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: var(--cor-texto-suave);
+    background: #f5f7f6;
+    border: 1px solid #e0e6e5;
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+.campoBusca {
+    position: relative;
+}
+
+.resultadosBuscaGeral {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    max-height: 360px;
+    overflow-y: auto;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    box-shadow: 0 16px 35px rgba(31, 51, 64, .16);
+    z-index: 100;
+    padding: 6px;
+}
+
+.resultadoBuscaItem {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    padding: 10px 11px;
+    border-radius: 9px;
+    color: var(--cor-texto);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.resultadoBuscaItem:hover, .resultadoBuscaItem:focus {
+    background: var(--cor-superficie-suave);
+    outline: none;
+}
+
+.resultadoBuscaTipo {
+    min-width: 78px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--cor-ciano);
+}
+
+.resultadoBuscaNome {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--cor-texto-principal);
+}
+
+.resultadoBuscaDetalhe {
+    display: block;
+    margin-top: 2px;
+    font-size: 9px;
+    color: var(--cor-texto-suave);
+}
+
+.resultadoBuscaVazio {
+    padding: 12px;
+    font-size: 11px;
+    color: var(--cor-texto-suave);
+}
+
+.campoBusca input {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 13px;
+    color: var(--cor-texto);
+}
+
+.acoesTopo {
+    margin-left: auto;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.botaoIcone, .alternarMenuMobile {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 11px;
+    background: var(--cor-superficie);
+    color: var(--cor-texto);
+    position: relative;
+}
+
+.botaoNotificacao span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--cor-ciano);
+    position: absolute;
+    top: 7px;
+    right: 8px;
+}
+
+.perfilSuperior {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding-left: 4px;
+}
+
+.perfilSuperior strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 12px;
+}
+
+.perfilSuperior small {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+.alternarMenuMobile {
+    display: none;
+}
+
+/* ==========================================================
+   4. CABEÇALHOS, BOTÕES E SEÇÕES
+   ========================================================== */
+.secaoPagina {
+    display: none;
+    padding: 34px;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.secaoAtiva {
+    display: block;
+}
+
+.cabecalhoPagina {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: flex-end;
+    margin-bottom: 24px;
+}
+
+.rotuloSecao {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+    color: var(--cor-ciano);
+}
+
+h1 {
+    margin: 6px 0 6px;
+    color: var(--cor-texto-principal);
+    font-size: clamp(25px, 3vw, 34px);
+    letter-spacing: -.8px;
+}
+
+h2, h3 {
+    color: var(--cor-texto-principal);
+    margin: 0;
+}
+
+.cabecalhoPagina p {
+    margin: 0;
+    color: var(--cor-texto-suave);
+    font-size: 13px;
+}
+
+.botaoPrincipal, .botaoSecundario, .botaoContorno, .botaoDiscreto {
+    border-radius: 10px;
+    padding: 11px 16px;
+    border: 1px solid transparent;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.botaoPrincipal {
+    color: #fff;
+    background: var(--cor-ciano);
+    box-shadow: 0 8px 18px rgba(24, 143, 167, .18);
+}
+
+.botaoPrincipal:hover {
+    transform: translateY(-1px);
+    filter: brightness(.97);
+}
+
+.botaoSecundario {
+    color: var(--cor-texto-principal);
+    background: var(--cor-areia);
+}
+
+.botaoContorno {
+    border-color: var(--cor-azul-aco);
+    color: var(--cor-texto-principal);
+    background: var(--cor-superficie);
+}
+
+.botaoDiscreto {
+    background: transparent;
+    color: var(--cor-ciano);
+    padding-right: 0;
+}
+
+/* ==========================================================
+   5. DASHBOARD E CARDS DE INDICADORES
+   ========================================================== */
+.gradeIndicadores {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.cartaoIndicador {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    box-shadow: var(--sombra-padrao);
+}
+
+.iconeIndicador {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.iconeIndicador.ciano {
+    background: #e1f3f5;
+    color: var(--cor-ciano);
+}
+
+.iconeIndicador.azul {
+    background: #e7eef4;
+    color: var(--cor-azul-aco);
+}
+
+.iconeIndicador.verde {
+    background: #e9f1ee;
+    color: #6d9b8b;
+}
+
+.iconeIndicador.areia {
+    background: #f3efdc;
+    color: #8b8656;
+}
+
+.cartaoIndicador span {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 11px;
+}
+
+.cartaoIndicador strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 25px;
+    margin-top: 3px;
+}
+
+.cartaoIndicador small {
+    display: block;
+    color: var(--cor-texto-suave);
+    margin-top: 2px;
+    font-size: 10px;
+}
+
+.gradePainel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(320px, 1fr);
+    gap: 18px;
+}
+
+.gradePainel.inferior {
+    margin-top: 18px;
+}
+
+/* ==========================================================
+   7. TABELAS, BUSCA E AÇÕES*/
+.painelTabela {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 17px;
+    box-shadow: var(--sombra-padrao);
+    overflow: hidden;
+}
+
+.painel {
+    padding: 21px;
+}
+
+.cabecalhoPainel {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+}
+
+.cabecalhoPainel h2 {
+    font-size: 16px;
+}
+
+.cabecalhoPainel p {
+    font-size: 11px;
+    color: var(--cor-texto-suave);
+    margin: 5px 0 0;
+}
+
+.listaAgendamentos {
+    display: grid;
+    gap: 9px;
+}
+
+.linhaAgendamento {
+    display: grid;
+    grid-template-columns: 74px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #DCE7EA;
+    border-radius: 12px;
+    background: #F7FAFB;
+}
+
+.blocoHorario strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 13px;
+}
+
+.blocoHorario small {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+.conteudoAgendamento strong {
+    display: block;
+    font-size: 12px;
+    color: var(--cor-texto-principal);
+}
+
+.conteudoAgendamento small {
+    display: block;
+    font-size: 10px;
+    color: var(--cor-texto-suave);
+    margin-top: 4px;
+}
+
+.etiquetaTipo {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+    background: #E8F4F6;
+    color: var(--cor-ciano);
+    border-radius: 99px;
+    padding: 4px 8px;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.etiquetaStatus {
+    border-radius: 99px;
+    padding: 6px 9px;
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.statusPendente {
+    background: #f2efd9;
+    color: #8a834f;
+}
+
+.statusConfirmado {
+    background: #e6f2f4;
+    color: #137b90;
+}
+
+.statusCancelado {
+    background: #f7e6e6;
+    color: #a55252;
+}
+
+.statusConcluido {
+    background: #e7f2ed;
+    color: #4e8a70;
+}
+
+.graficoStatus {
+    width: 156px;
+    height: 156px;
+    flex: 0 0 156px;
+    border-radius: 50%;
+    background: conic-gradient(var(--cor-grafico-vazio) 0 100%);
+    position: relative;
+    margin: 10px auto 18px;
+    box-shadow: inset 0 0 0 1px rgba(31, 51, 64, .08);
+}
+
+.graficoStatus::after {
+    content: '';
+    position: absolute;
+    inset: 30px;
+    border-radius: 50%;
+    background: var(--cor-centro-grafico);
+    box-shadow: 0 0 0 1px var(--cor-borda);
+}
+
+.legenda {
+    display: grid;
+    gap: 8px;
+}
+
+.itemLegenda {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--cor-texto-suave);
+    font-size: 11px;
+}
+
+.ladoLegenda {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.pontoLegenda {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.listaProfessores {
+    display: grid;
+    gap: 13px;
+}
+
+.linhaProfessor {
+    display: grid;
+    grid-template-columns: 35px 1fr 55px;
+    gap: 10px;
+    align-items: center;
+}
+
+.barraProfessor {
+    height: 7px;
+    border-radius: 10px;
+    background: #DCE7EA;
+    overflow: hidden;
+    margin-top: 7px;
+}
+
+.barraProfessor span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--cor-azul-aco), var(--cor-ciano));
+}
+
+.linhaProfessor strong {
+    font-size: 11px;
+    color: var(--cor-texto-principal);
+}
+
+.linhaProfessor small {
+    color: var(--cor-texto-suave);
+    font-size: 9px;
+}
+
+.percentualProfessor {
+    text-align: right;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--cor-ciano);
+}
+
+.painelDestaque {
+    background: linear-gradient(135deg, #f9fbf7 0%, #e7f0ed 100%);
+    position: relative;
+    overflow: hidden;
+    min-height: 210px;
+}
+
+.conteudoDestaque {
+    position: relative;
+    z-index: 2;
+    max-width: 320px;
+}
+
+.conteudoDestaque h2 {
+    margin-top: 7px;
+    font-size: 20px;
+}
+
+.conteudoDestaque p {
+    color: #657982;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 10px 0 18px;
+}
+
+.orbDestaque {
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(118, 159, 182, .35), rgba(24, 143, 167, .18));
+    position: absolute;
+    right: -72px;
+    bottom: -85px;
+}
+
+/* ==========================================================
+   6. BARRAS DE FERRAMENTAS E AGENDA
+   ========================================================== */
+.barraFerramentas {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    box-shadow: var(--sombra-padrao);
+}
+
+.barraFerramentasAgenda {
+    margin-bottom: 12px;
+}
+
+.painelCalendarioMensal {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--sombra-padrao);
+    margin-bottom: 16px;
+}
+
+.cabecalhoCalendarioMensal {
+    display: grid;
+    grid-template-columns: 38px 1fr 38px;
+    gap: 10px;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--cor-borda);
+    background: linear-gradient(180deg, #fbfcfb, #f5f7f5);
+}
+
+.cabecalhoCalendarioMensal>div {
+    text-align: center;
+}
+
+.cabecalhoCalendarioMensal strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 15px;
+}
+
+.cabecalhoCalendarioMensal small {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 9px;
+    margin-top: 3px;
+}
+
+.diasSemanaCalendario, .gradeCalendarioMensal {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.diasSemanaCalendario {
+    padding: 10px 12px 8px;
+    background: #F7FAFB;
+    border-bottom: 1px solid #eef1ef;
+}
+
+.diasSemanaCalendario span {
+    text-align: center;
+    color: var(--cor-texto-suave);
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+}
+
+.gradeCalendarioMensal {
+    padding: 8px 12px 12px;
+    gap: 4px;
+}
+
+.diaCalendario {
+    min-height: 62px;
+    border: 1px solid transparent;
+    background: var(--cor-superficie);
+    border-radius: 10px;
+    padding: 8px 6px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    color: var(--cor-texto);
+    transition: .18s ease;
+}
+
+.diaCalendario:hover {
+    background: #EAF2F4;
+    border-color: #B9CDD2;
+}
+
+.numeroDiaCalendario {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.diaCalendario.mesAtual .numeroDiaCalendario {
+    color: var(--cor-texto-principal);
+}
+
+.diaCalendario.foraDoMes .numeroDiaCalendario {
+    color: #8B9DA2;
+}
+
+.diaCalendario.fimDeSemana.mesAtual .numeroDiaCalendario {
+    color: var(--cor-sombra-clara);
+}
+
+.diaCalendario.diaAtual .numeroDiaCalendario {
+    background: var(--cor-areia);
+    color: var(--cor-texto-principal);
+    box-shadow: inset 0 0 0 1px rgba(24, 143, 167, .18);
+}
+
+.diaCalendario.selecionado {
+    border-color: rgba(24, 143, 167, .45);
+    background: linear-gradient(180deg, #f2f8f7, #fbfdfc);
+    box-shadow: inset 0 0 0 1px rgba(24, 143, 167, .08);
+}
+
+.diaCalendario.selecionado .numeroDiaCalendario {
+    background: var(--cor-ciano);
+    color: #fff;
+}
+
+.barraDiaCalendario {
+    width: 34px;
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--cor-azul-aco), var(--cor-ciano));
+}
+
+.marcadoresDia {
+    min-height: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.marcadorDia {
+    width: 18px;
+    height: 3px;
+    border-radius: 999px;
+    display: block;
+}
+
+.marcadorDia.confirmado {
+    background: var(--cor-ciano);
+}
+
+.marcadorDia.pendente {
+    background: var(--cor-baunilha);
+}
+
+.marcadorDia.concluido {
+    background: var(--cor-verde-neutro);
+}
+
+.marcadorDia.cancelado {
+    background: #cf8585;
+}
+
+.marcadoresDia.vazio {
+    visibility: hidden;
+}
+
+.diaCalendario small {
+    color: var(--cor-texto-suave);
+    font-size: 8px;
+    line-height: 1;
+    text-align: center;
+}
+
+.diaCalendarioVazio {
+    visibility: hidden;
+}
+
+.diaCalendario.foraDoMes small, .diaCalendario.foraDoMes .barraDiaCalendario {
+    opacity: .35;
+}
+
+.navegacaoData {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--cor-borda);
+    background: var(--cor-superficie);
+    border-radius: 9px;
+}
+
+.dataAtual {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cor-texto-principal);
+}
+
+.controleSelecao {
+    border: 1px solid var(--cor-borda);
+    border-radius: 9px;
+    padding: 10px 12px;
+    color: var(--cor-texto);
+    background: var(--cor-superficie);
+    outline: 0;
+}
+
+.layoutAgenda {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 290px;
+    gap: 16px;
+}
+
+.colunaDia {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--sombra-padrao);
+}
+
+.cabecalhoDia {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--cor-borda);
+    background: linear-gradient(180deg, #fbfcfb, #f5f7f5);
+}
+
+.cabecalhoDia strong {
+    color: var(--cor-texto-principal);
+    font-size: 15px;
+}
+
+.cabecalhoDia span {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.gradeHorarios {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+}
+
+.colunaHorarios {
+    border-right: 1px solid var(--cor-borda);
+}
+
+.rotuloHorario {
+    height: 70px;
+    padding: 10px;
+    font-size: 9px;
+    color: var(--cor-texto-suave);
+    border-bottom: 1px solid #eef1ef;
+}
+
+.areaHorarios {
+    position: relative;
+}
+
+.faixaHorario {
+    height: 70px;
+    border-bottom: 1px solid #eef1ef;
+    position: relative;
+}
+
+.faixaHorario::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 34px;
+    border-top: 1px dashed #eef1ef;
+}
+
+.eventoAgenda {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    z-index: 2;
+    min-height: 60px;
+    padding: 9px 10px;
+    background: #e2f1f4;
+    border: 0;
+    border-left: 3px solid var(--cor-ciano);
+    border-radius: 9px;
+    cursor: pointer;
+    text-align: left;
+    box-shadow: 0 6px 18px rgba(24, 143, 167, .08);
+}
+
+.eventoAgenda strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 11px;
+}
+
+.eventoAgenda small {
+    display: block;
+    color: #52717d;
+    font-size: 9px;
+    margin-top: 3px;
+}
+
+.eventoAgenda .etiquetaStatus {
+    display: inline-flex;
+    margin-top: 6px;
+    font-size: 8px;
+    padding: 4px 7px;
+}
+
+.resumoAgenda {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: var(--sombra-padrao);
+    height: fit-content;
+}
+
+.resumoAgenda h3 {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.linhaResumo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #edf0ef;
+    font-size: 11px;
+}
+
+.linhaResumo span {
+    color: var(--cor-texto-suave);
+}
+
+.linhaResumo strong {
+    color: var(--cor-texto-principal);
+}
+
+.avisoInformativo {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #f4f1df;
+    display: grid;
+    gap: 5px;
+}
+
+.avisoInformativo strong {
+    font-size: 10px;
+    color: #736e43;
+}
+
+.avisoInformativo span {
+    font-size: 10px;
+    line-height: 1.5;
+    color: #77765f;
+}
+
+.painelTabela {
+    padding: 0;
+}
+
+.barraFerramentasTabela {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.buscaTabela {
+    flex: 1;
+    max-width: 550px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
+    padding: 10px 12px;
+    outline: 0;
+}
+
+.contagemResultados {
+    font-size: 11px;
+    color: var(--cor-texto-suave);
+}
+
+.envoltorioTabela {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+}
+
+th, td {
+    text-align: left;
+    padding: 13px 16px;
+    border-bottom: 1px solid #eef1f0;
+    font-size: 11px;
+}
+
+th {
+    color: var(--cor-texto-suave);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: #F3F7F8;
+}
+
+td strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 11px;
+}
+
+td small {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 9px;
+    margin-top: 3px;
+}
+
+.acoesLinha {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.botaoAcao {
+    border: 1px solid var(--cor-borda);
+    background: var(--cor-superficie);
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    color: var(--cor-texto);
+}
+
+.botaoAcao:hover {
+    background: #f0f5f4;
+}
+
+.botaoAcao.perigo:hover {
+    color: var(--cor-perigo);
+    border-color: #e0bcbc;
+    background: #fcf0f0;
+}
+
+/* ==========================================================
+   8. CARDS DE PROFESSORES E DISPONIBILIDADES
+   ========================================================== */
+.gradeCartoes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.cartaoProfessor {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 15px;
+    padding: 18px;
+    box-shadow: var(--sombra-padrao);
+}
+
+.topoProfessor {
+    display: flex;
+    gap: 11px;
+    align-items: center;
+}
+
+.cartaoProfessor .avatar {
+    width: 42px;
+    height: 42px;
+}
+
+.cartaoProfessor h3 {
+    font-size: 13px;
+}
+
+.cartaoProfessor p {
+    margin: 3px 0 0;
+    font-size: 10px;
+    color: var(--cor-texto-suave);
+}
+
+.metaProfessor {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.caixaMeta {
+    background: var(--cor-superficie-suave);
+    border-radius: 9px;
+    padding: 9px;
+}
+
+.caixaMeta span {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 9px;
+}
+
+.caixaMeta strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    margin-top: 3px;
+}
+
+.acaoCartao {
+    margin-top: 13px;
+    width: 100%;
+    padding: 9px;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-ciano);
+    background: var(--cor-superficie);
+    font-weight: 700;
+    font-size: 10px;
+}
+
+.gradeDisponibilidades {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.cartaoDisponibilidade {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 15px;
+    box-shadow: var(--sombra-padrao);
+    overflow: hidden;
+}
+
+.cabecalhoCartaoDisponibilidade {
+    padding: 15px 17px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #F3F7F8;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.cabecalhoCartaoDisponibilidade strong {
+    color: var(--cor-texto-principal);
+    font-size: 12px;
+    display: block;
+}
+
+.contagemDisponibilidade {
+    display: block;
+    margin-top: 3px;
+    font-size: 9px;
+    color: var(--cor-texto-suave);
+}
+
+.listaDisponibilidade {
+    padding: 8px 16px 15px;
+}
+
+.linhaDisponibilidade {
+    display: grid;
+    grid-template-columns: minmax(85px, 1fr) auto auto;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eef1ef;
+}
+
+.linhaDisponibilidade:last-child {
+    border-bottom: 0;
+}
+
+.diaDisponibilidade {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.diaDisponibilidade>span {
+    font-size: 10px;
+    color: var(--cor-texto);
+    font-weight: 700;
+}
+
+.linhaDisponibilidade strong {
+    font-size: 10px;
+    color: var(--cor-texto-principal);
+    white-space: nowrap;
+}
+
+.linhaDisponibilidade.inativo {
+    opacity: .58;
+}
+
+.statusDisponibilidade {
+    width: fit-content;
+    padding: 2px 6px;
+    border-radius: 999px;
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.statusDisponibilidade.ativo {
+    background: #e6f2ee;
+    color: #4f8b71;
+}
+
+.statusDisponibilidade.inativo {
+    background: #f1f3f3;
+    color: #788a90;
+}
+
+.acoesDisponibilidade {
+    opacity: .45;
+    transition: .18s ease;
+}
+
+.linhaDisponibilidade:hover .acoesDisponibilidade {
+    opacity: 1;
+}
+
+.estadoVazio {
+    padding: 28px 14px;
+    text-align: center;
+    color: var(--cor-texto-suave);
+    font-size: 11px;
+}
+
+.fundoConsentimento {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(30, 49, 59, .58);
+    backdrop-filter: blur(9px);
+    z-index: 500;
+}
+
+.fundoConsentimento.abrir {
+    display: flex;
+}
+
+.modalConsentimento {
+    width: min(680px, 100%);
+    max-height: 92vh;
+    overflow: auto;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbfa 100%);
+    border: 1px solid rgba(118, 159, 182, .28);
+    border-radius: 24px;
+    box-shadow: 0 35px 90px rgba(20, 48, 59, .28);
+    padding: 30px;
+}
+
+.marcaConsentimento {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.marcaConsentimento .simboloMarca {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--cor-azul-aco), var(--cor-ciano));
+}
+
+.marcaConsentimento strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 16px;
+    letter-spacing: .5px;
+}
+
+.marcaConsentimento span {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 9px;
+    margin-top: 2px;
+}
+
+.modalConsentimento h2 {
+    margin: 6px 0 8px;
+    color: var(--cor-texto-principal);
+    font-size: 28px;
+}
+
+.introducaoConsentimento {
+    margin: 0 0 18px;
+    color: var(--cor-texto);
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+.caixaTermos {
+    border: 1px solid rgba(118, 159, 182, .26);
+    background: #f4f8f6;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.caixaTermos h3 {
+    margin: 0 0 9px;
+    color: var(--cor-texto-principal);
+    font-size: 13px;
+}
+
+.caixaTermos p {
+    margin: 7px 0;
+    color: #5f737b;
+    font-size: 10px;
+    line-height: 1.65;
+}
+
+.caixaConsentimento, .campoCaixaSelecao {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    align-items: start;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.caixaConsentimento input, .campoCaixaSelecao input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.marcaSelecao {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--cor-azul-aco);
+    border-radius: 6px;
+    background: var(--cor-superficie);
+    color: transparent;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: 900;
+    transition: .18s ease;
+    margin-top: 1px;
+}
+
+.caixaConsentimento input:checked+.marcaSelecao, .campoCaixaSelecao input:checked+.marcaSelecao {
+    background: var(--cor-ciano);
+    border-color: var(--cor-ciano);
+    color: #fff;
+}
+
+.caixaConsentimento>span:last-child {
+    color: var(--cor-texto);
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.caixaConsentimento strong {
+    color: var(--cor-texto-principal);
+}
+
+.botaoConsentimento {
+    width: 100%;
+    margin-top: 18px;
+}
+
+.botaoConsentimento:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.observacaoConsentimento {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    color: var(--cor-texto-suave);
+    font-size: 9px;
+}
+
+.campoCaixaSelecao {
+    padding: 12px 14px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 11px;
+    background: #F3F7F8;
+}
+
+.campoCaixaSelecao.marcado {
+    border-color: rgba(24, 143, 167, .32);
+    background: #eef8f6;
+}
+
+.campoCaixaSelecao>span:last-child strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 11px;
+}
+
+.campoCaixaSelecao>span:last-child small {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 9px;
+    margin-top: 4px;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+body.iconeConsentimento {
+    overflow: hidden;
+}
+
+/* ==========================================================
+   9. MODAIS E FORMULÁRIOS
+   ========================================================== */
+.fundoModal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(30, 49, 59, .42);
+    backdrop-filter: blur(7px);
+    z-index: 100;
+}
+
+.fundoModal.abrir {
+    display: flex;
+}
+
+.janelaModal {
+    width: min(600px, 100%);
+    max-height: 90vh;
+    overflow: auto;
+    background: var(--cor-superficie);
+    border-radius: 18px;
+    box-shadow: 0 30px 80px rgba(23, 42, 51, .25);
+    position: relative;
+    padding: 24px;
+}
+
+.fecharModal {
+    position: absolute;
+    right: 14px;
+    top: 13px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 9px;
+    background: #f2f5f4;
+    color: var(--cor-texto-suave);
+    font-size: 20px;
+}
+
+.tituloModal {
+    font-size: 19px;
+    color: var(--cor-texto-principal);
+    margin: 0 0 4px;
+}
+
+.subtituloModal {
+    margin: 0 0 18px;
+    color: var(--cor-texto-suave);
+    font-size: 11px;
+}
+
+.gradeFormulario {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.grupoFormulario {
+    display: grid;
+    gap: 6px;
+}
+
+.grupoFormulario.completo {
+    grid-column: 1 / -1;
+}
+
+.grupoFormulario label {
+    font-size: 10px;
+    color: var(--cor-texto);
+    font-weight: 700;
+}
+
+.grupoFormulario input, .grupoFormulario select, .grupoFormulario textarea {
+    border: 1px solid var(--cor-borda);
+    border-radius: 9px;
+    padding: 10px 11px;
+    outline: 0;
+    color: var(--cor-texto);
+    background: var(--cor-superficie);
+    font-size: 11px;
+}
+
+.grupoFormulario textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.acoesFormulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.avisoFlutuante {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(40, 62, 71, .15);
+    padding: 12px 14px;
+    display: none;
+    gap: 10px;
+    align-items: center;
+    z-index: 200;
+}
+
+.avisoFlutuante.visivel {
+    display: flex;
+    animation: toastIn .25s ease;
+}
+
+.avisoFlutuante>span:first-child {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    background: #e6f2ee;
+    color: #4f8b71;
+    font-weight: 800;
+}
+
+.avisoFlutuante strong {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-size: 11px;
+}
+
+.avisoFlutuante div span {
+    display: block;
+    color: var(--cor-texto-suave);
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+@keyframes toastIn {
+    from {
+        transform: translateY(12px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ==========================================================
+   12. RESPONSIVIDADE
+   ========================================================== */
+@media (max-width: 1120px) {
+    .conteudoPrincipal {
+        margin-left: 72px;
+    }
+
+    .gradeIndicadores {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gradeCartoes {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 860px) {
+    .barraLateral {
+        width: 250px;
+        transform: translateX(-100%);
+        transition: .25s;
+        box-shadow: 15px 0 35px rgba(33, 52, 61, .08);
+    }
+
+    .barraLateral.abrir {
+        transform: translateX(0);
+    }
+
+    .barraLateral.abrir .marca>div:last-child, .barraLateral.abrir .itemNavegacao, .barraLateral.abrir .rodapeBarraLateral>* {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .conteudoPrincipal {
+        margin-left: 0;
+    }
+
+    .alternarMenuMobile {
+        display: block;
+    }
+
+    .barraSuperior {
+        padding: 0 18px;
+    }
+
+    .perfilSuperior {
+        display: none;
+    }
+
+    .secaoPagina {
+        padding: 24px 18px;
+    }
+
+    .gradePainel, .layoutAgenda {
+        grid-template-columns: 1fr;
+    }
+
+    .gradeDisponibilidades {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 620px) {
+    .gradeIndicadores, .gradeCartoes {
+        grid-template-columns: 1fr;
+    }
+
+    .cabecalhoPagina {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .acoesTopo .botaoIcone:first-child {
+        display: none;
+    }
+
+    .campoBusca {
+        min-width: 0;
+    }
+
+    .barraFerramentas {
+        flex-wrap: wrap;
+    }
+
+    .controleSelecao {
+        width: 100%;
+    }
+
+    .gradeCalendarioMensal {
+        gap: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .diaCalendario {
+        min-height: 58px;
+        padding: 6px 3px;
+    }
+
+    .diaCalendario small {
+        font-size: 7px;
+    }
+
+    .barraDiaCalendario {
+        width: 26px;
+    }
+
+    .gradeFormulario {
+        grid-template-columns: 1fr;
+    }
+
+    .grupoFormulario.completo {
+        grid-column: auto;
+    }
+
+    .linhaAgendamento {
+        grid-template-columns: 64px 1fr;
+    }
+
+    .linhaAgendamento .etiquetaStatus {
+        grid-column: 2;
+        justify-self: start;
+    }
+}
+
+
+/* =========================
+   MODO ESCURO — AGA
+   ========================= */
+html, body {
+    transition: background-color .25s ease, color .25s ease;
+}
+
+.modoEscuro {
+    color-scheme: dark;
+    --cor-texto-principal: #edf5f4;
+    --cor-texto: #c8d6d8;
+    --cor-texto-suave: #91a6aa;
+    --cor-borda: #2b4148;
+    --cor-superficie: #17262c;
+    --cor-superficie-suave: #1d3036;
+    --cor-fundo-painel: #17262c;
+    --cor-centro-grafico: #17262c;
+    --cor-grafico-pendente: #d5d6aa;
+    --cor-grafico-confirmado: #2fc1d4;
+    --cor-grafico-cancelado: #e47d7d;
+    --cor-grafico-concluido: #7fbea1;
+    --cor-grafico-vazio: #30464d;
+    --sombra-padrao: 0 12px 35px rgba(0, 0, 0, .24);
+    --cor-perigo: #e07b7b;
+}
+
+.modoEscuro body {
+    background: #0e191e;
+    color: var(--cor-texto);
+}
+
+.modoEscuro .barraLateral {
+    background: linear-gradient(180deg, #14242a 0%, #101e23 100%);
+    border-color: var(--cor-borda);
+}
+
+.modoEscuro .marca strong,
+.modoEscuro h1,
+.modoEscuro h2,
+.modoEscuro h3,
+.modoEscuro .cabecalhoPainel h2,
+.modoEscuro .cartaoIndicador strong,
+.modoEscuro .conteudoAgendamento strong,
+.modoEscuro .blocoHorario strong,
+.modoEscuro .linhaProfessor strong,
+.modoEscuro .linhaDisponibilidade strong,
+.modoEscuro .tituloModal,
+.modoEscuro .modalConsentimento h2,
+.modoEscuro .marcaConsentimento strong,
+.modoEscuro .caixaTermos h3,
+.modoEscuro .perfilSuperior strong,
+.modoEscuro .cartaoMini strong,
+.modoEscuro .perfilMini strong,
+.modoEscuro .campoCaixaSelecao>span:last-child strong {
+    color: var(--cor-texto-principal);
+}
+
+.modoEscuro .itemNavegacao {
+    color: #9bb0b4;
+}
+
+.modoEscuro .itemNavegacao:hover {
+    background: rgba(118, 159, 182, .12);
+    color: var(--cor-texto-principal);
+}
+
+.modoEscuro .itemNavegacao.ativo {
+    background: linear-gradient(90deg, rgba(24, 143, 167, .22), rgba(118, 159, 182, .12));
+    color: #55c0d3;
+}
+
+.modoEscuro .cartaoMini,
+.modoEscuro .painel,
+.modoEscuro .painelTabela,
+.modoEscuro .cartaoIndicador,
+.modoEscuro .cartaoProfessor,
+.modoEscuro .cartaoDisponibilidade,
+.modoEscuro .barraFerramentas,
+.modoEscuro .painelCalendarioMensal,
+.modoEscuro .colunaDia,
+.modoEscuro .resumoAgenda,
+.modoEscuro .avisoFlutuante,
+.modoEscuro .janelaModal,
+.modoEscuro .campoBusca,
+.modoEscuro .barraFerramentasTabela,
+.modoEscuro .barraSuperior {
+    background: var(--cor-superficie);
+    border-color: var(--cor-borda);
+}
+
+.modoEscuro .barraSuperior {
+    background: rgba(20, 36, 42, .92);
+}
+
+.modoEscuro .campoBusca {
+    background: #122229;
+}
+
+.modoEscuro .campoBusca {
+    position: relative;
+}
+
+.resultadosBuscaGeral {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    max-height: 360px;
+    overflow-y: auto;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    box-shadow: 0 16px 35px rgba(31, 51, 64, .16);
+    z-index: 100;
+    padding: 6px;
+}
+
+.resultadoBuscaItem {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    padding: 10px 11px;
+    border-radius: 9px;
+    color: var(--cor-texto);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.resultadoBuscaItem:hover, .resultadoBuscaItem:focus {
+    background: var(--cor-superficie-suave);
+    outline: none;
+}
+
+.resultadoBuscaTipo {
+    min-width: 78px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--cor-ciano);
+}
+
+.resultadoBuscaNome {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--cor-texto-principal);
+}
+
+.resultadoBuscaDetalhe {
+    display: block;
+    margin-top: 2px;
+    font-size: 9px;
+    color: var(--cor-texto-suave);
+}
+
+.resultadoBuscaVazio {
+    padding: 12px;
+    font-size: 11px;
+    color: var(--cor-texto-suave);
+}
+
+.campoBusca input {
+    color: var(--cor-texto);
+}
+
+.modoEscuro .botaoIcone,
+.modoEscuro .alternarMenuMobile,
+.modoEscuro .navegacaoData,
+.modoEscuro .botaoContorno,
+.modoEscuro .fecharModal {
+    background: #1d3036;
+    border-color: var(--cor-borda);
+    color: var(--cor-texto);
+}
+
+.modoEscuro .botaoIcone:hover,
+.modoEscuro .alternarMenuMobile:hover,
+.modoEscuro .navegacaoData:hover,
+.modoEscuro .fecharModal:hover {
+    background: #263c43;
+}
+
+.modoEscuro .cabecalhoPagina p,
+.modoEscuro .cabecalhoPainel p,
+.modoEscuro .cartaoIndicador span,
+.modoEscuro .cartaoIndicador small,
+.modoEscuro .perfilSuperior small,
+.modoEscuro .cartaoMini small,
+.modoEscuro .perfilMini small,
+.modoEscuro .conteudoAgendamento small,
+.modoEscuro .blocoHorario small,
+.modoEscuro .linhaProfessor small,
+.modoEscuro .cabecalhoCalendarioMensal small,
+.modoEscuro .observacaoConsentimento,
+.modoEscuro .introducaoConsentimento,
+.modoEscuro .subtituloModal,
+.modoEscuro .cabecalhoPainel p {
+    color: var(--cor-texto-suave);
+}
+
+.modoEscuro .botaoPrincipal {
+    color: #fff;
+}
+
+.modoEscuro .botaoSecundario {
+    color: #203139;
+    background: var(--cor-areia);
+}
+
+.modoEscuro .botaoContorno {
+    color: #b8c9cc;
+}
+
+.modoEscuro .botaoDiscreto {
+    color: #51bfd1;
+}
+
+.modoEscuro .iconeIndicador.ciano {
+    background: rgba(24, 143, 167, .18);
+}
+
+.modoEscuro .iconeIndicador.azul {
+    background: rgba(118, 159, 182, .18);
+}
+
+.modoEscuro .iconeIndicador.verde {
+    background: rgba(157, 187, 174, .15);
+}
+
+.modoEscuro .iconeIndicador.areia {
+    background: rgba(213, 214, 170, .15);
+}
+
+.modoEscuro #painel .cartaoIndicador,
+.modoEscuro #painel .painel {
+    background: #17262c !important;
+    border-color: #2b4148 !important;
+    color: #c8d6d8;
+}
+
+.modoEscuro #painel .cartaoIndicador span,
+.modoEscuro #painel .cartaoIndicador small,
+.modoEscuro #painel .cabecalhoPainel p,
+.modoEscuro #painel .itemLegenda,
+.modoEscuro #painel .linhaProfessor small {
+    color: #91a6aa !important;
+}
+
+.modoEscuro #painel .cartaoIndicador strong,
+.modoEscuro #painel .cabecalhoPainel h2,
+.modoEscuro #painel .linhaProfessor strong,
+.modoEscuro #painel .conteudoAgendamento strong,
+.modoEscuro #painel .blocoHorario strong {
+    color: #edf5f4 !important;
+}
+
+.modoEscuro #painel .linhaAgendamento {
+    background: #14242a !important;
+    border-color: #2b4148 !important;
+}
+
+.modoEscuro #painel .linhaAgendamento:hover {
+    background: #1b3037 !important;
+}
+
+.modoEscuro #painel .graficoStatus {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05), 0 0 0 1px #2b4148;
+}
+
+.modoEscuro #painel .graficoStatus::after {
+    background: #17262c !important;
+}
+
+.modoEscuro #painel .barraProfessor {
+    background: #263a41 !important;
+}
+
+.modoEscuro #painel .painelDestaque {
+    background: linear-gradient(135deg, #1a2d31 0%, #19353a 100%) !important;
+}
+
+.modoEscuro .linhaAgendamento {
+    background: #14242a;
+    border-color: #263a41;
+}
+
+.modoEscuro .linhaAgendamento:hover,
+.modoEscuro .linhaDisponibilidade:hover {
+    background: #1b3037;
+}
+
+.modoEscuro .etiquetaTipo {
+    background: rgba(24, 143, 167, .16);
+    color: #55c0d3;
+}
+
+.modoEscuro .statusPendente {
+    background: rgba(213, 214, 170, .15);
+    color: #d5d6aa;
+}
+
+.modoEscuro .statusConfirmado {
+    background: rgba(24, 143, 167, .17);
+    color: #55c0d3;
+}
+
+.modoEscuro .statusCancelado {
+    background: rgba(189, 98, 98, .18);
+    color: #ef8d8d;
+}
+
+.modoEscuro .statusConcluido {
+    background: rgba(78, 138, 112, .18);
+    color: #7ac49f;
+}
+
+.modoEscuro .barraProfessor {
+    background: #263a41;
+}
+
+.modoEscuro .painelDestaque {
+    background: linear-gradient(135deg, #1a2d31 0%, #19353a 100%);
+}
+
+.modoEscuro .conteudoDestaque p {
+    color: #a5b6b9;
+}
+
+.modoEscuro .orbDestaque {
+    background: linear-gradient(135deg, rgba(118, 159, 182, .24), rgba(24, 143, 167, .16));
+}
+
+.modoEscuro .buscaTabela,
+.modoEscuro .controleSelecao,
+.modoEscuro .grupoFormulario input,
+.modoEscuro .grupoFormulario select,
+.modoEscuro .grupoFormulario textarea {
+    background: #122229;
+    color: var(--cor-texto);
+    border-color: var(--cor-borda);
+}
+
+.modoEscuro .buscaTabela::placeholder,
+.modoEscuro .campoBusca input::placeholder {
+    color: #70878c;
+}
+
+.modoEscuro .painelTabela table thead,
+.modoEscuro .painelTabela table thead tr,
+.modoEscuro .painelTabela table th {
+    background: #0b171c !important;
+}
+
+.modoEscuro .painelTabela table th {
+    color: #a8bcc0 !important;
+    border-color: #253a41;
+    box-shadow: inset 0 -1px 0 #253a41;
+}
+
+.modoEscuro .painelTabela table thead tr {
+    border-bottom: 1px solid #253a41;
+}
+
+.modoEscuro table td {
+    color: #c6d4d6;
+    border-color: #263a41;
+}
+
+.modoEscuro table tbody tr:hover {
+    background: #1a2d33;
+}
+
+.modoEscuro .botaoAcao {
+    background: #1d3036;
+    border-color: var(--cor-borda);
+    color: #a9bec2;
+}
+
+.modoEscuro .botaoAcao:hover {
+    background: #294149;
+}
+
+.modoEscuro .botaoAcao.perigo {
+    color: #ef8d8d;
+}
+
+.modoEscuro .cartaoProfessor .acaoCartao {
+    background: #1d3036;
+    border-color: var(--cor-borda);
+    color: #b9cbd0;
+}
+
+.modoEscuro .cartaoProfessor .acaoCartao:hover {
+    background: #294149;
+}
+
+.modoEscuro .caixaMeta {
+    background: #122229;
+    border-color: var(--cor-borda);
+}
+
+.modoEscuro .caixaMeta span {
+    color: var(--cor-texto-suave);
+}
+
+.modoEscuro .caixaMeta strong {
+    color: var(--cor-texto-principal);
+}
+
+.modoEscuro .linhaDisponibilidade {
+    border-color: #263a41;
+}
+
+.modoEscuro .statusDisponibilidade.inativo {
+    background: #263238;
+    color: #8ca0a4;
+}
+
+.modoEscuro .estadoVazio {
+    color: var(--cor-texto-suave);
+}
+
+.modoEscuro .gradeHorarios .faixaHorario {
+    border-color: #263a41;
+    background: #14242a;
+}
+
+.modoEscuro .gradeHorarios .faixaHorario:hover {
+    background: #1b3037;
+}
+
+.modoEscuro .gradeCalendarioMensal {
+    background: transparent;
+}
+
+.modoEscuro .diaCalendario {
+    background: #14242a;
+    border-color: #263a41;
+    color: var(--cor-texto);
+}
+
+.modoEscuro .diaCalendario:hover {
+    background: #1c343b;
+}
+
+.modoEscuro .diaCalendario.foraDoMes {
+    background: #101d22;
+    color: #60767b;
+}
+
+.modoEscuro .diaCalendario.diaAtual {
+    border-color: var(--cor-ciano);
+}
+
+.modoEscuro .diaCalendario.selecionado {
+    box-shadow: inset 0 0 0 2px var(--cor-ciano);
+}
+
+.modoEscuro .cabecalhoDia {
+    color: var(--cor-texto-principal);
+}
+
+.modoEscuro .resumoAgenda {
+    color: var(--cor-texto);
+}
+
+.modoEscuro .avisoInformativo {
+    background: rgba(24, 143, 167, .10);
+    border-color: rgba(24, 143, 167, .25);
+}
+
+.modoEscuro .fundoModal {
+    background: rgba(0, 10, 14, .68);
+}
+
+.modoEscuro .janelaModal {
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .45);
+}
+
+.modoEscuro .fecharModal {
+    background: #22353b;
+}
+
+.modoEscuro .avisoFlutuante {
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .4);
+}
+
+.modoEscuro .fundoConsentimento {
+    background: rgba(0, 10, 14, .76);
+}
+
+.modoEscuro .modalConsentimento {
+    background: linear-gradient(180deg, #17282e 0%, #122229 100%);
+    border-color: rgba(118, 159, 182, .28);
+    box-shadow: 0 35px 90px rgba(0, 0, 0, .48);
+}
+
+.modoEscuro .caixaTermos {
+    background: #122229;
+    border-color: rgba(118, 159, 182, .26);
+}
+
+.modoEscuro .caixaTermos p {
+    color: #a5b6b9;
+}
+
+.modoEscuro .caixaConsentimento>span:last-child {
+    color: #c4d2d4;
+}
+
+.modoEscuro .marcaSelecao {
+    background: #122229;
+    border-color: var(--cor-azul-aco);
+}
+
+.modoEscuro .campoCaixaSelecao {
+    background: #14242a;
+    border-color: var(--cor-borda);
+}
+
+.modoEscuro .campoCaixaSelecao.marcado {
+    background: rgba(24, 143, 167, .12);
+    border-color: rgba(24, 143, 167, .4);
+}
+
+.modoEscuro .marcaConsentimento .simboloMarca {
+    box-shadow: 0 8px 20px rgba(24, 143, 167, .25);
+}
+
+.modoEscuro .menu-perfil {
+    background: #14242a;
+    border-color: var(--cor-borda);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, .42);
+}
+
+.modoEscuro .menu-perfil-header {
+    border-color: var(--cor-borda);
+}
+
+.modoEscuro .menu-perfil-item:hover {
+    background: #1b3037;
+}
+
+.modoEscuro .menu-perfil-icon {
+    background: rgba(24, 143, 167, .16);
+    color: #55c0d3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html, body, .botaoIcone, .itemNavegacao {
+        transition: none !important;
+    }
+}
+
+
+/* ==========================================================
+   AJUSTES DO MODO ESCURO — AGENDA E DISPONIBILIDADES
+   ========================================================== */
+
+.modoEscuro .gradeHorarios .faixaHorario {
+    background: #12252c;
+    border-bottom-color: #29434b;
+}
+
+.modoEscuro .gradeHorarios .faixaHorario::after {
+    border-top-color: #29434b;
+}
+
+.modoEscuro .rotuloHorario {
+    background: #102128;
+    border-bottom-color: #29434b;
+    color: #8fa7ac;
+}
+
+.modoEscuro .eventoAgenda {
+    background: #173a43;
+    border-left-color: #35b7cb;
+    box-shadow: 0 7px 20px rgba(0, 0, 0, .24);
+}
+
+.modoEscuro .eventoAgenda strong {
+    color: #e8f3f4;
+}
+
+.modoEscuro .eventoAgenda small {
+    color: #a8c2c7;
+}
+
+.modoEscuro .resumoAgenda {
+    background: #152a31;
+    border-color: #29434b;
+}
+
+.modoEscuro .linhaResumo {
+    border-bottom-color: #29434b;
+}
+
+.modoEscuro .avisoInformativo {
+    background: #18343a;
+    border: 1px solid #285861;
+}
+
+.modoEscuro .avisoInformativo strong {
+    color: #d5d6aa;
+}
+
+.modoEscuro .avisoInformativo span {
+    color: #a9c0c4;
+}
+
+
+.modoEscuro .cartaoDisponibilidade {
+    background: #152a31;
+    border-color: #29434b;
+}
+
+.modoEscuro .cabecalhoCartaoDisponibilidade {
+    background: #10242b;
+    border-bottom-color: #29434b;
+}
+
+.modoEscuro .listaDisponibilidade {
+    background: #152a31;
+}
+
+.modoEscuro .linhaDisponibilidade {
+    background: transparent;
+    border-bottom-color: #29434b;
+}
+
+.modoEscuro .linhaDisponibilidade:hover {
+    background: #1b3941;
+}
+
+.modoEscuro .diaDisponibilidade>span {
+    color: #c8d9dc;
+}
+
+.modoEscuro .linhaDisponibilidade strong {
+    color: #e8f3f4;
+}
+
+.modoEscuro .statusDisponibilidade.ativo {
+    background: rgba(76, 168, 128, .18);
+    color: #86d1aa;
+}
+
+.modoEscuro .statusDisponibilidade.inativo {
+    background: #26383e;
+    color: #91a6aa;
+}
+
+.modoEscuro .acoesDisponibilidade .botaoAcao {
+    background: #1d343b;
+    border-color: #315059;
+    color: #b8cbd0;
+}
+
+
+/* ==========================================================
+   MODO ESCURO — SUPERFÍCIES, AGENDA E DISPONIBILIDADE
+   ========================================================== */
+
+html.modoEscuro {
+    --cor-texto-principal: #edf5f4;
+    --cor-texto: #c8d6d8;
+    --cor-texto-suave: #91a6aa;
+    --cor-borda: #2b4148;
+    --cor-superficie: #17262c;
+    --cor-superficie-suave: #1d3036;
+    --cor-perigo: #e07b7b;
+    --sombra-padrao: 0 12px 35px rgba(0, 0, 0, .28);
+    color-scheme: dark;
+}
+
+html.modoEscuro body {
+    background: #0e191e;
+    color: var(--cor-texto);
+}
+
+/* Tabelas */
+html.modoEscuro .painelTabela,
+html.modoEscuro .painelTabela table,
+html.modoEscuro .envoltorioTabela {
+    background: #17262c;
+}
+
+html.modoEscuro .painelTabela th {
+    background: #0b171c !important;
+    color: #a8bcc0 !important;
+    border-bottom: 1px solid #2b4148 !important;
+}
+
+html.modoEscuro .painelTabela td {
+    background: #17262c;
+    color: #c8d6d8;
+    border-bottom-color: #2b4148;
+}
+
+/* Agenda mensal */
+html.modoEscuro .painelCalendarioMensal {
+    background: #17262c !important;
+    border-color: #2b4148;
+}
+
+html.modoEscuro .cabecalhoCalendarioMensal {
+    background: #14242a !important;
+    border-bottom-color: #2b4148;
+}
+
+html.modoEscuro .diasSemanaCalendario {
+    background: #101e23 !important;
+    border-bottom-color: #2b4148;
+}
+
+html.modoEscuro .diasSemanaCalendario span {
+    color: #91a6aa;
+}
+
+html.modoEscuro .gradeCalendarioMensal {
+    background: #17262c !important;
+}
+
+html.modoEscuro .diaCalendario {
+    background: #14242a !important;
+    border-color: #263a41;
+    color: #c8d6d8;
+}
+
+html.modoEscuro .diaCalendario:hover {
+    background: #1d343b !important;
+    border-color: #769fb6;
+}
+
+html.modoEscuro .diaCalendario.mesAtual .numeroDiaCalendario {
+    color: #edf5f4;
+}
+
+html.modoEscuro .diaCalendario.foraDoMes .numeroDiaCalendario {
+    color: #60767b;
+}
+
+html.modoEscuro .diaCalendario.fimDeSemana.mesAtual .numeroDiaCalendario {
+    color: #9dbbae;
+}
+
+html.modoEscuro .diaCalendario.diaAtual .numeroDiaCalendario {
+    background: #e2dbbe;
+    color: #1f3340;
+}
+
+html.modoEscuro .diaCalendario.selecionado {
+    background: #18343a !important;
+    border-color: #188fa7;
+    box-shadow: inset 0 0 0 1px rgba(24, 143, 167, .25);
+}
+
+html.modoEscuro .diaCalendario.selecionado .numeroDiaCalendario {
+    background: #188fa7;
+    color: #fff;
+}
+
+html.modoEscuro .diaCalendario small {
+    color: #91a6aa;
+}
+
+html.modoEscuro .marcadorDia.confirmado {
+    background: #188fa7;
+}
+
+html.modoEscuro .marcadorDia.pendente {
+    background: #d5d6aa;
+}
+
+html.modoEscuro .marcadorDia.concluido {
+    background: #9dbbae;
+}
+
+html.modoEscuro .marcadorDia.cancelado {
+    background: #d97f7f;
+}
+
+/* Agenda por horário */
+html.modoEscuro .colunaDia {
+    background: #17262c !important;
+    border-color: #2b4148;
+}
+
+html.modoEscuro .cabecalhoDia {
+    background: #14242a !important;
+    border-bottom-color: #2b4148;
+}
+
+html.modoEscuro .rotuloHorario {
+    background: #101e23 !important;
+    color: #91a6aa;
+    border-bottom-color: #29434b;
+}
+
+html.modoEscuro .faixaHorario {
+    background: #12252c !important;
+    border-bottom-color: #29434b !important;
+}
+
+html.modoEscuro .faixaHorario::after {
+    border-top-color: #29434b;
+}
+
+html.modoEscuro .eventoAgenda {
+    background: #173a43 !important;
+    border-left-color: #188fa7;
+}
+
+html.modoEscuro .eventoAgenda strong {
+    color: #edf5f4;
+}
+
+html.modoEscuro .eventoAgenda small {
+    color: #a8c2c7;
+}
+
+/* Resumo da agenda */
+html.modoEscuro .resumoAgenda {
+    background: #152a31 !important;
+    border-color: #29434b;
+}
+
+html.modoEscuro .linhaResumo {
+    border-bottom-color: #29434b;
+}
+
+html.modoEscuro .avisoInformativo {
+    background: #18343a !important;
+    border-color: #285861;
+}
+
+html.modoEscuro .avisoInformativo strong {
+    color: #d5d6aa;
+}
+
+html.modoEscuro .avisoInformativo span {
+    color: #a9c0c4;
+}
+
+/* Disponibilidades */
+html.modoEscuro .cartaoDisponibilidade {
+    background: #152a31 !important;
+    border-color: #29434b;
+}
+
+html.modoEscuro .cabecalhoCartaoDisponibilidade {
+    background: #10242b !important;
+    border-bottom-color: #29434b;
+}
+
+html.modoEscuro .listaDisponibilidade {
+    background: #152a31;
+}
+
+html.modoEscuro .linhaDisponibilidade {
+    background: #152a31 !important;
+    border-bottom-color: #29434b;
+}
+
+html.modoEscuro .linhaDisponibilidade:hover {
+    background: #1b3037 !important;
+}
+
+html.modoEscuro .diaDisponibilidade>span {
+    color: #c8d6d8;
+}
+
+html.modoEscuro .linhaDisponibilidade strong {
+    color: #edf5f4;
+}
+
+html.modoEscuro .statusDisponibilidade.ativo {
+    background: rgba(157, 187, 174, .18);
+    color: #9dbbae;
+}
+
+html.modoEscuro .statusDisponibilidade.inativo {
+    background: #263238;
+    color: #8ca0a4;
+}
+
+/* Formulários e controles */
+html.modoEscuro .barraFerramentas,
+html.modoEscuro .barraFerramentasTabela,
+html.modoEscuro .controleSelecao,
+html.modoEscuro .buscaTabela,
+html.modoEscuro .grupoFormulario input,
+html.modoEscuro .grupoFormulario select,
+html.modoEscuro .grupoFormulario textarea {
+    background: #122229 !important;
+    color: #c8d6d8;
+    border-color: #2b4148;
+}
+
+html.modoEscuro .botaoAcao {
+    background: #1d3036 !important;
+    border-color: #2b4148;
+    color: #a9bec2;
+}
+
+html.modoEscuro .botaoAcao:hover {
+    background: #294149 !important;
+}
+
+/* Cartões e superfícies gerais */
+html.modoEscuro .cartaoIndicador,
+html.modoEscuro .cartaoProfessor,
+html.modoEscuro .painel,
+html.modoEscuro .painelTabela {
+    background: #17262c !important;
+}
+
+html.modoEscuro .caixaMeta {
+    background: #122229 !important;
+}
+
+html.modoEscuro .acaoCartao {
+    background: #1d3036 !important;
+    border-color: #2b4148;
+    color: #b9cbd0;
+}
+
+/* Tamanho da imagem da marca */
+.simboloMarca .imagemLogo {
+    width: 24px;
+    height: 24px;
+    display: block;
+    object-fit: contain;
+}
+
+.marcaConsentimento .simboloMarca .imagemLogo {
+    width: 24px;
+    height: 24px;
+}
+
+
+html.modoEscuro .resultadosBuscaGeral {
+    background: #17262c;
+    border-color: #2b424b;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+}
+
+html.modoEscuro .resultadoBuscaItem:hover, html.modoEscuro .resultadoBuscaItem:focus {
+    background: #20353d;
+}
+
+
+/* ==========================================================
+   PALETA NOVA — AGA
+   ========================================================== */
+body {
+    background: var(--cor-fundo);
+}
+
+.barraLateral {
+    background: linear-gradient(180deg, var(--cor-superficie) 0%, #F2F6F7 100%);
+}
+
+.simboloMarca {
+    background: linear-gradient(135deg, var(--cor-primaria), var(--cor-dominante));
+}
+
+.itemNavegacao span {
+    color: var(--cor-primaria);
+}
+
+.itemNavegacao:hover {
+    background: var(--cor-superficie-suave);
+    color: var(--cor-destaque);
+}
+
+.itemNavegacao.ativo {
+    background: linear-gradient(90deg, rgba(121, 189, 209, .18), rgba(123, 150, 158, .12));
+    color: var(--cor-destaque);
+    box-shadow: inset 3px 0 0 var(--cor-dominante);
+}
+
+.botaoPrincipal {
+    background: var(--cor-destaque);
+}
+
+.botaoPrincipal:hover {
+    background: var(--cor-sombra-escura);
+}
+
+.botaoContorno {
+    border-color: var(--cor-primaria);
+}
+
+.botaoDiscreto {
+    color: var(--cor-destaque);
+}
+
+.iconeIndicador.ciano {
+    background: rgba(121, 189, 209, .22);
+    color: var(--cor-destaque);
+}
+
+.iconeIndicador.azul {
+    background: rgba(123, 150, 158, .20);
+    color: var(--cor-destaque);
+}
+
+.iconeIndicador.verde {
+    background: rgba(88, 103, 107, .15);
+    color: var(--cor-sombra-escura);
+}
+
+.iconeIndicador.areia {
+    background: rgba(121, 189, 209, .14);
+    color: var(--cor-sombra-escura);
+}
+
+.linhaAgendamento {
+    background: #F7FAFB;
+    border-color: #DCE7EA;
+}
+
+.etiquetaTipo {
+    background: #E6F3F5;
+    color: var(--cor-destaque);
+}
+
+.statusPendente {
+    background: #E8EEF0;
+    color: var(--cor-destaque);
+}
+
+.statusConfirmado {
+    background: #DFF1F5;
+    color: #174D5A;
+}
+
+.statusConcluido {
+    background: #E6ECEC;
+    color: var(--cor-sombra-escura);
+}
+
+.barraProfessor {
+    background: #DCE7EA;
+}
+
+.barraProfessor span {
+    background: linear-gradient(90deg, var(--cor-primaria), var(--cor-dominante));
+}
+
+.painelDestaque {
+    background: linear-gradient(135deg, #EEF5F6 0%, #DCECEF 100%);
+}
+
+.conteudoDestaque p {
+    color: var(--cor-sombra-clara);
+}
+
+.orbDestaque {
+    background: linear-gradient(135deg, rgba(123, 150, 158, .28), rgba(121, 189, 209, .22));
+}
+
+.barraFerramentas {
+    background: var(--cor-superficie);
+}
+
+.cabecalhoCalendarioMensal, .cabecalhoDia {
+    background: linear-gradient(180deg, #F8FBFC, #EEF4F5);
+}
+
+.diasSemanaCalendario {
+    background: #F5F9FA;
+    border-bottom-color: #DCE7EA;
+}
+
+.diaCalendario {
+    background: var(--cor-superficie);
+}
+
+.diaCalendario.selecionado {
+    border-color: rgba(121, 189, 209, .65);
+    background: linear-gradient(180deg, #EAF5F7, #F8FBFC);
+}
+
+.diaCalendario.selecionado .numeroDiaCalendario {
+    background: var(--cor-dominante);
+    color: var(--cor-destaque);
+}
+
+.navegacaoData, .controleSelecao, .botaoAcao {
+    background: var(--cor-superficie);
+}
+
+.colunaDia, .resumoAgenda, .cartaoProfessor, .cartaoDisponibilidade {
+    background: var(--cor-superficie);
+}
+
+.faixaHorario {
+    border-bottom-color: #DCE7EA;
+}
+
+.faixaHorario::after {
+    border-top-color: #DCE7EA;
+}
+
+.eventoAgenda {
+    background: #DDF0F4;
+    border-left-color: var(--cor-dominante);
+}
+
+.linhaDisponibilidade {
+    border-bottom-color: #DCE7EA;
+}
+
+.statusDisponibilidade.ativo {
+    background: #E0ECEA;
+    color: var(--cor-sombra-escura);
+}
+
+.statusDisponibilidade.inativo {
+    background: #EDF2F3;
+    color: var(--cor-sombra-clara);
+}
+
+.fundoConsentimento, .fundoModal {
+    background: rgba(21, 44, 51, .58);
+}
+
+html.modoEscuro {
+    --cor-fundo: #152C33;
+    --cor-superficie: #233338;
+    --cor-superficie-suave: #2D444A;
+    --cor-fundo-painel: #233338;
+    --cor-centro-grafico: #233338;
+    --cor-texto-principal: #F2F7F8;
+    --cor-texto: #D2E0E3;
+    --cor-texto-suave: #A7B9BE;
+    --cor-borda: #58676B;
+    --cor-grafico-pendente: #7B969E;
+    --cor-grafico-confirmado: #79BDD1;
+    --cor-grafico-cancelado: #E07A7A;
+    --cor-grafico-concluido: #9DB3B7;
+    --cor-grafico-vazio: #41565C;
+    --cor-perigo: #E07A7A;
+}
+
+html.modoEscuro body {
+    background: var(--cor-fundo);
+}
+
+html.modoEscuro .barraLateral {
+    background: linear-gradient(180deg, #152C33 0%, #233338 100%);
+}
+
+html.modoEscuro .barraSuperior {
+    background: rgba(21, 44, 51, .94);
+}
+
+html.modoEscuro .painel,
+html.modoEscuro .painelTabela,
+html.modoEscuro .cartaoIndicador,
+html.modoEscuro .cartaoProfessor,
+html.modoEscuro .cartaoDisponibilidade,
+html.modoEscuro .painelCalendarioMensal,
+html.modoEscuro .colunaDia,
+html.modoEscuro .resumoAgenda,
+html.modoEscuro .barraFerramentas {
+    background: #233338 !important;
+    border-color: #58676B !important;
+}
+
+html.modoEscuro .cartaoIndicador strong, html.modoEscuro .cabecalhoPainel h2, html.modoEscuro .linhaProfessor strong, html.modoEscuro .conteudoAgendamento strong, html.modoEscuro .blocoHorario strong {
+    color: #F2F7F8 !important;
+}
+
+html.modoEscuro .cartaoIndicador span, html.modoEscuro .cartaoIndicador small, html.modoEscuro .cabecalhoPainel p, html.modoEscuro .itemLegenda, html.modoEscuro .linhaProfessor small {
+    color: #A7B9BE !important;
+}
+
+html.modoEscuro .iconeIndicador.ciano {
+    background: rgba(121, 189, 209, .16);
+    color: #79BDD1;
+}
+
+html.modoEscuro .iconeIndicador.azul {
+    background: rgba(123, 150, 158, .18);
+    color: #B8CDD2;
+}
+
+html.modoEscuro .iconeIndicador.verde {
+    background: rgba(88, 103, 107, .26);
+    color: #C6D4D7;
+}
+
+html.modoEscuro .iconeIndicador.areia {
+    background: rgba(121, 189, 209, .12);
+    color: #A8D6DF;
+}
+
+html.modoEscuro .linhaAgendamento, html.modoEscuro .diaCalendario, html.modoEscuro .faixaHorario, html.modoEscuro .linhaDisponibilidade {
+    background: #1D3A42 !important;
+    border-color: #58676B !important;
+}
+
+html.modoEscuro .linhaAgendamento:hover, html.modoEscuro .linhaDisponibilidade:hover, html.modoEscuro .diaCalendario:hover {
+    background: #2B464D !important;
+}
+
+html.modoEscuro .cabecalhoCalendarioMensal, html.modoEscuro .cabecalhoDia {
+    background: #233338 !important;
+    border-color: #58676B;
+}
+
+html.modoEscuro .diasSemanaCalendario {
+    background: #152C33 !important;
+    border-color: #58676B;
+}
+
+html.modoEscuro .diaCalendario.selecionado {
+    background: #234A56 !important;
+    border-color: #79BDD1;
+}
+
+html.modoEscuro .diaCalendario.selecionado .numeroDiaCalendario {
+    background: #79BDD1;
+    color: #152C33;
+}
+
+html.modoEscuro .diaCalendario.diaAtual .numeroDiaCalendario {
+    background: #7B969E;
+    color: #152C33;
+}
+
+html.modoEscuro .eventoAgenda {
+    background: #234A56 !important;
+    border-left-color: #79BDD1;
+}
+
+html.modoEscuro .eventoAgenda strong {
+    color: #F2F7F8;
+}
+
+html.modoEscuro .eventoAgenda small {
+    color: #BCD0D4;
+}
+
+html.modoEscuro .graficoStatus::after {
+    background: #233338 !important;
+    box-shadow: 0 0 0 1px #58676B;
+}
+
+html.modoEscuro .barraProfessor {
+    background: #41565C !important;
+}
+
+html.modoEscuro .barraProfessor span {
+    background: linear-gradient(90deg, #7B969E, #79BDD1);
+}
+
+html.modoEscuro .painelDestaque {
+    background: linear-gradient(135deg, #233338, #2D444A) !important;
+}
+
+html.modoEscuro .conteudoDestaque p {
+    color: #A7B9BE;
+}
+
+html.modoEscuro .barraFerramentasTabela, html.modoEscuro .barraFerramentasAgenda, html.modoEscuro .buscaTabela, html.modoEscuro .controleSelecao, html.modoEscuro .grupoFormulario input, html.modoEscuro .grupoFormulario select, html.modoEscuro .grupoFormulario textarea {
+    background: #1D3A42 !important;
+    color: #D2E0E3;
+    border-color: #58676B;
+}
+
+html.modoEscuro .botaoAcao, html.modoEscuro .navegacaoData, html.modoEscuro .botaoContorno, html.modoEscuro .fecharModal {
+    background: #2D444A !important;
+    color: #D2E0E3;
+    border-color: #58676B;
+}
+
+html.modoEscuro .botaoPrincipal {
+    background: #79BDD1;
+    color: #152C33;
+}
+
+html.modoEscuro .botaoPrincipal:hover {
+    background: #7B969E;
+}
+
+html.modoEscuro .botaoSecundario {
+    background: #7B969E;
+    color: #152C33;
+}
+
+html.modoEscuro .botaoDiscreto {
+    color: #79BDD1;
+}
+
+html.modoEscuro .menu-perfil {
+    background: #233338;
+    border-color: #58676B;
+}
+
+html.modoEscuro .campoBusca {
+    background: #1D3A42 !important;
+    border-color: #58676B;
+}

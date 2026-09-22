@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AGA - Agenda Acadêmica">
+    <title>AGA • Agenda Acadêmica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}?v=20260818_dashboard3">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+</head>
+<body>
+<div class="estruturaAplicacao">
+    <aside class="barraLateral" id="barraLateral">
+        <div class="marca">
+            <div class="simboloMarca"><img class="imagemLogo" src="{{ url_for('static', filename='img/logo_h.png') }}" alt="Logo H"></div>
+            <div>
+                <strong>AGA</strong>
+                <span>Agenda Acadêmica</span>
+            </div>
+        </div>
+
+        <nav class="menuNavegacao">
+            <button class="itemNavegacao ativo" data-secao="painel"><span>▦</span> Painel</button>
+            <button class="itemNavegacao" data-secao="agenda"><span>◫</span> Agenda</button>
+            <button class="itemNavegacao" data-secao="alunos"><span>◉</span> Alunos</button>
+            <button class="itemNavegacao" data-secao="professores"><span>◌</span> Professores</button>
+            <button class="itemNavegacao" data-secao="atendimentos"><span>▤</span> Atendimentos</button>
+            <button class="itemNavegacao" data-secao="disponibilidade"><span>◷</span> Disponibilidade</button>
+            <button class="itemNavegacao" data-secao="bloqueios"><span>□</span> Bloqueios</button>
+        </nav>
+
+        <div class="rodapeBarraLateral">
+            <div class="cartaoMini">
+                <span class="pontoMini"></span>
+                <div>
+                    <strong>Sistema online</strong>
+                    <small>Banco conectado</small>
+                </div>
+            </div>
+            <div class="perfilMini">
+                <div class="avatar">ER</div>
+                <div><strong>Eduardo</strong><small>Administrador</small></div>
+                <button id="botaoMenuPerfil" aria-label="Mais opções" aria-expanded="false" title="Mais opções">⋯</button>
+            </div>
+            <div class="menu-perfil" id="menuPerfil" aria-hidden="true">
+                <div class="menu-perfil-header">
+                    <div class="avatar">ER</div>
+                    <div><strong>Eduardo</strong><small>Administrador</small></div>
+                </div>
+                <button class="menu-perfil-item" id="mostrarConsentimentoLgpd">
+                    <span class="menu-perfil-icon">✓</span>
+                    <span><strong>Consentimento LGPD</strong><small>Ver termos e consentimento novamente</small></span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="conteudoPrincipal">
+        <header class="barraSuperior">
+            <button class="alternarMenuMobile" id="alternarMenuMobile">☰</button>
+            <div class="campoBusca">
+                <span>⌕</span>
+                <input id="buscaGeral" type="search" autocomplete="off" placeholder="Pesquisar alunos, professores ou agendamentos...">
+                <div id="resultadosBuscaGeral" class="resultadosBuscaGeral" hidden></div>
+            </div>
+            <div class="acoesTopo">
+                <button class="botaoIcone" id="alternarTema" title="Ativar modo escuro" aria-label="Ativar modo escuro">☾</button>
+                <button class="botaoIcone" id="botaoAtualizar" title="Atualizar dados">↻</button>
+                <button class="botaoIcone botaoNotificacao" title="Notificações">♢<span></span></button>
+                <div class="perfilSuperior"><div class="avatar">ER</div><div><strong>Eduardo</strong><small>Administrador</small></div></div>
+            </div>
+        </header>
+
+        <section id="painel" class="secaoPagina secaoAtiva">
+            <div class="cabecalhoPagina">
+                <div><span class="rotuloSecao">VISÃO GERAL</span><h1>Bom dia, Eduardo.</h1><p>Veja o que está acontecendo na agenda hoje.</p></div>
+                <button class="botaoPrincipal" id="agendamentoRapido"><span>＋</span> Novo agendamento</button>
+            </div>
+
+            <div class="gradeIndicadores">
+                <article class="cartaoIndicador"><div class="iconeIndicador ciano">◫</div><div><span>Atendimentos hoje</span><strong id="totalHoje">0</strong><small id="resumoHoje">Nenhum agendamento</small></div></article>
+                <article class="cartaoIndicador"><div class="iconeIndicador azul">◌</div><div><span>Professores</span><strong id="totalProfessores">0</strong><small>Cadastros ativos</small></div></article>
+                <article class="cartaoIndicador"><div class="iconeIndicador verde">◉</div><div><span>Alunos</span><strong id="totalAlunos">0</strong><small>Cadastros ativos</small></div></article>
+                <article class="cartaoIndicador"><div class="iconeIndicador areia">✓</div><div><span>Confirmados</span><strong id="totalConfirmados">0</strong><small id="resumoConfirmados">Hoje</small></div></article>
+            </div>
+
+            <div class="gradePainel">
+                <article class="painel painelGrande">
+                    <div class="cabecalhoPainel"><div><h2>Próximos atendimentos</h2><p>Os compromissos mais próximos da agenda.</p></div><button class="botaoDiscreto" data-link-secao="agenda">Ver agenda →</button></div>
+                    <div id="listaProximos" class="listaAgendamentos"><div class="estadoVazio">Carregando agenda...</div></div>
+                </article>
+                <article class="painel">
+                    <div class="cabecalhoPainel"><div><h2>Status de hoje</h2><p>Distribuição dos agendamentos.</p></div></div>
+                    <div id="graficoStatus" class="graficoStatus"></div>
+                    <div class="legenda" id="legendaStatus"></div>
+                </article>
+            </div>
+
+            <div class="gradePainel inferior">
+                <article class="painel">
+                    <div class="cabecalhoPainel"><div><h2>Professores em destaque</h2><p>Volume de atendimentos registrados.</p></div></div>
+                    <div id="listaProfessores" class="listaProfessores"><div class="estadoVazio">Carregando...</div></div>
+                </article>
+                <article class="painel painelDestaque">
+                    <div class="conteudoDestaque"><span class="rotuloSecao">ATALHO INTELIGENTE</span><h2>Encontre o melhor horário</h2><p>Escolha o professor e o tipo de atendimento e o AGA ajuda a localizar um horário disponível.</p><button class="botaoSecundario" id="botaoEncontrarHorario">Encontrar horário</button></div>
+                    <div class="orbDestaque"></div>
+                </article>
+            </div>
+        </section>
+
+        <section id="agenda" class="secaoPagina">
+            <div class="cabecalhoPagina"><div><span class="rotuloSecao">AGENDA</span><h1>Agenda de atendimentos</h1><p>Visualize os compromissos e identifique conflitos rapidamente.</p></div><button class="botaoPrincipal" id="novoAgendamentoAgenda">＋ Novo agendamento</button></div>
+            <div class="barraFerramentas barraFerramentasAgenda"><button class="navegacaoData" id="diaAnterior" title="Dia anterior">←</button><div class="dataAtual" id="dataAgenda"></div><button class="navegacaoData" id="proximoDia" title="Próximo dia">→</button><button class="botaoContorno" id="botaoHoje">Hoje</button><select id="filtroProfessorAgenda" class="controleSelecao"><option value="">Todos os professores</option></select></div>
+            <div class="painelCalendarioMensal">
+                <div class="cabecalhoCalendarioMensal"><button class="navegacaoData" id="mesAnterior" title="Mês anterior">←</button><div><strong id="tituloCalendarioMensal"></strong><small>Selecione uma data para ver os horários.</small></div><button class="navegacaoData" id="proximoMes" title="Próximo mês">→</button></div>
+                <div class="diasSemanaCalendario"><span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div>
+                <div id="gradeCalendarioMensal" class="gradeCalendarioMensal"></div>
+            </div>
+            <div class="layoutAgenda"><div class="colunaDia"><div id="cabecalhoDia" class="cabecalhoDia"></div><div id="gradeHorarios" class="gradeHorarios"></div></div><aside class="resumoAgenda"><h3>Resumo do dia</h3><div id="resumoDia"></div><div class="avisoInformativo"><strong>ℹ Dica</strong><span>Clique em uma data para trocar o dia. Clique em um compromisso para visualizar detalhes.</span></div></aside></div>
+        </section>
+
+        <section id="alunos" class="secaoPagina"><div class="cabecalhoPagina"><div><span class="rotuloSecao">CADASTROS</span><h1>Alunos</h1><p>Gerencie os alunos vinculados aos atendimentos.</p></div><button class="botaoPrincipal" id="novoAluno">＋ Novo aluno</button></div><div class="painelTabela"><div class="barraFerramentasTabela"><input class="buscaTabela" id="buscaAlunos" placeholder="Buscar por nome, matrícula ou curso..."><span id="contagemAlunos" class="contagemResultados"></span></div><div class="envoltorioTabela"><table><thead><tr><th>Aluno</th><th>Matrícula</th><th>Curso / Turma</th><th>Período</th><th>Contato</th><th></th></tr></thead><tbody id="tabelaAlunos"></tbody></table></div></div></section>
+
+        <section id="professores" class="secaoPagina"><div class="cabecalhoPagina"><div><span class="rotuloSecao">CADASTROS</span><h1>Professores</h1><p>Visualize especialistas e a carga da agenda.</p></div><button class="botaoPrincipal" id="novoProfessor">＋ Novo professor</button></div><div id="cartoesProfessores" class="gradeCartoes"></div></section>
+
+        <section id="atendimentos" class="secaoPagina"><div class="cabecalhoPagina"><div><span class="rotuloSecao">ATENDIMENTOS</span><h1>Agendamentos</h1><p>Acompanhe status, alunos, professores e horários.</p></div><button class="botaoPrincipal" id="novoAgendamento">＋ Novo agendamento</button></div><div class="painelTabela"><div class="barraFerramentasTabela"><input class="buscaTabela" id="buscaAgendamentos" placeholder="Buscar aluno, professor ou atendimento..."><select class="controleSelecao" id="filtroStatus"><option value="">Todos os status</option><option>Pendente</option><option>Confirmado</option><option>Cancelado</option><option>Concluído</option></select></div><div class="envoltorioTabela"><table><thead><tr><th>Data / horário</th><th>Aluno</th><th>Professor</th><th>Atendimento</th><th>Status</th><th></th></tr></thead><tbody id="tabelaAgendamentos"></tbody></table></div></div></section>
+
+        <section id="disponibilidade" class="secaoPagina"><div class="cabecalhoPagina"><div><span class="rotuloSecao">CONFIGURAÇÃO</span><h1>Disponibilidade</h1><p>Defina os horários de trabalho de cada professor.</p></div><button class="botaoPrincipal" id="novaDisponibilidade">＋ Nova disponibilidade</button></div><div id="cartoesDisponibilidade" class="gradeDisponibilidades"></div></section>
+
+        <section id="bloqueios" class="secaoPagina"><div class="cabecalhoPagina"><div><span class="rotuloSecao">CONFIGURAÇÃO</span><h1>Bloqueios</h1><p>Férias e períodos em que o professor não poderá atender.</p></div><button class="botaoPrincipal" id="novoBloqueio">＋ Novo bloqueio</button></div><div class="painelTabela"><div class="envoltorioTabela"><table><thead><tr><th>Professor</th><th>Início</th><th>Fim</th><th>Motivo</th><th></th></tr></thead><tbody id="tabelaBloqueios"></tbody></table></div></div></section>
+    </main>
+</div>
+
+<div class="fundoConsentimento" id="fundoConsentimento" aria-hidden="true">
+    <section class="modalConsentimento" role="dialog" aria-modal="true" aria-labelledby="tituloConsentimento">
+        <div class="marcaConsentimento">
+            <div class="simboloMarca"><img class="imagemLogo" src="{{ url_for('static', filename='img/logo_h.png') }}" alt="Logo H"></div>
+            <div><strong>AGA</strong><span>Agenda Acadêmica</span></div>
+        </div>
+        <span class="rotuloSecao">PRIMEIRO ACESSO</span>
+        <h2 id="tituloConsentimento">Antes de começar</h2>
+        <p class="introducaoConsentimento">Para utilizar o AGA, leia os termos abaixo e confirme o seu consentimento para o tratamento de dados pessoais.</p>
+
+        <div class="caixaTermos">
+            <h3>Termos de uso e privacidade</h3>
+            <p>O AGA utiliza dados cadastrais, como nome, matrícula, e-mail e telefone, para permitir o cadastro de alunos, professores e o gerenciamento de agendamentos acadêmicos.</p>
+            <p>Os dados devem ser utilizados somente para as finalidades do sistema. O acesso às informações deve ser feito por pessoas autorizadas e respeitar as regras institucionais de privacidade e proteção de dados.</p>
+            <p>Seu consentimento pode ser revisto conforme as regras da instituição responsável pelo sistema.</p>
+        </div>
+
+        <label class="caixaConsentimento">
+            <input type="checkbox" id="caixaConsentimentoInicial">
+            <span class="marcaSelecao" aria-hidden="true">✓</span>
+            <span>Li e concordo com os <strong>Termos de Uso</strong> e autorizo o tratamento dos meus dados pessoais para as finalidades descritas acima.</span>
+        </label>
+
+        <button class="botaoPrincipal botaoConsentimento" id="aceitarConsentimento" disabled>Continuar para o AGA</button>
+        <small class="observacaoConsentimento">Ao continuar, esta escolha ficará registrada neste navegador.</small>
+    </section>
+</div>
+
+<div class="fundoModal" id="fundoModal"><div class="janelaModal" id="janelaModal"><button class="fecharModal" id="fecharModal">×</button><div id="corpoModal"></div></div></div>
+<div class="avisoFlutuante" id="avisoFlutuante"><span id="iconeAviso">✓</span><div><strong id="tituloAviso">Pronto</strong><span id="mensagemAviso"></span></div></div>
+
+<script src="{{ url_for('static', filename='js/aplicacao.js') }}?v=20260818_dashboard3"></script>
+</body>
+</html>
